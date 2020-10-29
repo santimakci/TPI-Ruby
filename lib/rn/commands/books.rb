@@ -1,15 +1,14 @@
 module RN
   module Commands
     module Books
-
-
-      
       class Create < Dry::CLI::Command
         attr_accessor :system_dir
+        argument :name, required: true, desc: 'Name of the book'
+        desc 'Create a book'
+
         def initialize 
           self.system_dir = "/home/my_rns"
         end
-        desc 'Create a book'
 
         def isValid? name
           total = (name).scan("/").count
@@ -34,27 +33,24 @@ module RN
           puts "Se creo el cuadernos satisfactoriamente"
         end
 
-        def call()
-          puts "Ingrese el nombre de la nota y presione enter "
-          name = (STDIN.gets).chomp
+        def call(name:, **)
           if self.isValid? name 
             if !self.exist_book? name
               self.bookCreate name
             else
               puts "El nombre del cuaderno ingresado ya existe"
-              self.call
             end
           else
             puts "Por favor recuerde no incluir el signo / en el nombre del libro"
-            self.call
           end
-
         end
+
       end
 
       class Delete < Dry::CLI::Command
+        require 'fileutils'
         desc 'Delete a book'
-
+        attr_accessor :system_dir
         argument :name, required: false, desc: 'Name of the book'
         option :global, type: :boolean, default: false, desc: 'Operate on the global book'
 
@@ -63,11 +59,43 @@ module RN
           '"My book" # Deletes a book named "My book" and all of its notes',
           'Memoires  # Deletes a book named "Memoires" and all of its notes'
         ]
+        def initialize 
+          self.system_dir = "/home/my_rns"
+        end
+
+        def isGlobal? name
+          if name == 'global'
+            return true
+          end
+          return false 
+        end
+        
+        def deleteInGlobal
+            FileUtils.rm_rf("#{system_dir}/global/.")
+            return "Se eliminaron todos los archivo de global"
+        end
+
+        def deleteBook name
+          Dir.foreach(system_dir) do |dir|
+            if name == dir
+              FileUtils.rm_r "#{self.system_dir}/#{name}" 
+              return "Se borró el cuaderno"
+            end
+          end
+          return "El cuaderno no existe"
+        end
 
         def call(name: nil, **options)
-          global = options[:global]
-          warn "TODO: Implementar borrado del cuaderno de notas con nombre '#{name}' (global=#{global}).\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if options[:global]
+            return puts self.deleteInGlobal
+          elsif self.isGlobal? name
+            return puts "No puede elminar el cuaderno global"
+          end
+
+          puts self.deleteBook name
+          
         end
+
       end
 
       class List < Dry::CLI::Command
@@ -81,12 +109,11 @@ module RN
             end
           end
         end
-
       end
 
       class Rename < Dry::CLI::Command
         desc 'Rename a book'
-
+        attr_accessor :system_dir
         argument :old_name, required: true, desc: 'Current name of the book'
         argument :new_name, required: true, desc: 'New name of the book'
 
@@ -96,10 +123,18 @@ module RN
           '"TODO - Name this book" Wiki # Renames the book "TODO - Name this book" to "Wiki"'
         ]
 
+        def initialize 
+          self.system_dir = "/home/my_rns"
+        end
+
         def call(old_name:, new_name:, **)
-          warn "TODO: Implementar renombrado del cuaderno de notas con nombre '#{old_name}' para que pase a llamarse '#{new_name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+
+          if Dir.exist?("#{self.system_dir}/#{old_name}")
+            File.rename("#{self.system_dir}/#{old_name}", "#{self.system_dir}/#{new_name}")
+          end
         end
       end
+      
     end
   end
 end
