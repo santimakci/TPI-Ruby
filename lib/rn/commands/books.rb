@@ -1,18 +1,54 @@
 module RN
   module Commands
     module Books
+
+
+      
       class Create < Dry::CLI::Command
+        attr_accessor :system_dir
+        def initialize 
+          self.system_dir = "/home/my_rns"
+        end
         desc 'Create a book'
 
-        argument :name, required: true, desc: 'Name of the book'
+        def isValid? name
+          total = (name).scan("/").count
+          if total.positive?
+            return false          
+          else
+            return true
+          end
+        end
 
-        example [
-          '"My book" # Creates a new book named "My book"',
-          'Memoires  # Creates a new book named "Memoires"'
-        ]
+        def exist_book? name
+          Dir.foreach(self.system_dir) do |dir|
+            if dir.eql? name
+              return true
+            end
+          end
+          return false 
+        end
 
-        def call(name:, **)
-          warn "TODO: Implementar creación del cuaderno de notas con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+        def bookCreate name
+          Dir.mkdir "#{self.system_dir}/#{name}"  
+          puts "Se creo el cuadernos satisfactoriamente"
+        end
+
+        def call()
+          puts "Ingrese el nombre de la nota y presione enter "
+          name = (STDIN.gets).chomp
+          if self.isValid? name 
+            if !self.exist_book? name
+              self.bookCreate name
+            else
+              puts "El nombre del cuaderno ingresado ya existe"
+              self.call
+            end
+          else
+            puts "Por favor recuerde no incluir el signo / en el nombre del libro"
+            self.call
+          end
+
         end
       end
 
@@ -37,13 +73,15 @@ module RN
       class List < Dry::CLI::Command
         desc 'List books'
 
-        example [
-          '          # Lists every available book'
-        ]
-
-        def call(*)
-          warn "TODO: Implementar listado de los cuadernos de notas.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+        def call(*) 
+          system_dir = "/home/my_rns"
+          Dir.foreach(system_dir) do |dir|
+            if File.directory?("#{system_dir}/#{dir}") && dir != "." && dir != ".."
+              puts dir
+            end
+          end
         end
+
       end
 
       class Rename < Dry::CLI::Command
