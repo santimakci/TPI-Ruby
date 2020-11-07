@@ -2,29 +2,11 @@ module RN
   module Commands
     module Books
 
-      def system_dir 
-        return "/home/my_rns"
-      end
-
-      def existBook? name
-        return Dir.exist?("#{self.system_dir}/#{name}")
-      end
-
-      def isGlobal? name
-        if name == 'global'
-          return true
-        end
-        return false 
-      end
-
       class Create < Dry::CLI::Command
-        include Books
-        
         argument :name, required: true, desc: 'Name of the book'
         desc 'Create a book'
 
-
-        def isValid? name
+        def is_valid? name
           total = (name).scan("/").count
           if total.positive?
             return false          
@@ -33,15 +15,15 @@ module RN
           end
         end
 
-        def bookCreate name
-          Dir.mkdir "#{self.system_dir}/#{name}"  
+        def book_create name
+          Dir.mkdir "#{system_dir}/#{name}"  
           puts "Se creo el cuadernos satisfactoriamente"
         end
 
         def call(name:, **)
-          if self.isValid? name 
-            if !self.existBook? name
-              self.bookCreate name
+          if is_valid? name 
+            if !book_exist? name
+              book_create name
             else
               puts "El nombre del cuaderno ingresado ya existe"
             end
@@ -53,31 +35,34 @@ module RN
       end
 
       class Delete < Dry::CLI::Command
-        include Books
         require 'fileutils'
         desc 'Delete a book'
 
         argument :name, required: false, desc: 'Name of the book'
         option :global, type: :boolean, default: false, desc: 'Operate on the global book'
         
-        def deleteInGlobal
-            FileUtils.rm_rf("#{self.system_dir}/global/.")
+        def delete_in_global
+            FileUtils.rm_rf("#{system_dir}/global/.")
             return "Se eliminaron todos los archivo de global"
         end
 
-        def deleteBook name
-          if self.existBook? name
-            FileUtils.rm_r "#{self.system_dir}/#{name}" 
+        def delete_book name
+          if book_exist? name and !is_global? name
+            FileUtils.rm_r "#{system_dir}/#{name}" 
             return "Se borró el cuaderno #{name}"
           end
-          return "El cuaderno no existe"
+          return "El cuaderno no existe o es global"
         end
 
         def call(name: nil, **options)
           if options[:global]
-            return puts self.deleteInGlobal
-          elsif self.isGlobal? name
-            return puts "No puede elminar el cuaderno global"
+            return puts delete_in_global
+          else 
+            if name
+              return puts delete_book name
+            else 
+              return puts "Por favor ingrese el nombre del cuaderno que desea borrar"
+            end
           end
           
         end
@@ -85,12 +70,11 @@ module RN
       end
 
       class List < Dry::CLI::Command
-        include Books
         desc 'List books'
 
         def call(*) 
-          Dir.foreach(self.system_dir) do |dir|
-            if File.directory?("#{self.system_dir}/#{dir}") && dir != "." && dir != ".."
+          Dir.foreach(system_dir) do |dir|
+            if File.directory?("#{system_dir}/#{dir}") && dir != "." && dir != ".."
               puts dir
             end
           end
@@ -98,17 +82,16 @@ module RN
       end
 
       class Rename < Dry::CLI::Command
-        include Books
         desc 'Rename a book'
         argument :old_name, required: true, desc: 'Current name of the book'
         argument :new_name, required: true, desc: 'New name of the book'
 
         def call(old_name:, new_name:, **)
-          if self.isGlobal? old_name
+          if is_global? old_name
             return puts "No se puede modificar el nombre del cuaderno global"
           end
-          if self.existBook? name
-            File.rename("#{self.system_dir}/#{old_name}", "#{self.system_dir}/#{new_name}")
+          if book_exist? old_name
+            File.rename("#{system_dir}/#{old_name}", "#{system_dir}/#{new_name}")
             return puts "Se modificó el nombre del cuaderno a: #{new_name}"
           else
             puts "El cuaderno #{old_name} no existe"

@@ -1,60 +1,33 @@
 module RN
   module Commands
     module Notes
-
-      def system_dir 
-        return "/home/my_rns"
-      end
-
-      def IsGlobal? title
-        if title.eql? "global"
-          return true
-        end
-        return false
-      end
-
-      def bookExist? book
-        return Dir.exist?("#{self.system_dir}/#{book}")
-      end
-      def noteExist? book, title
-        return File.exist?("#{self.system_dir}/#{book}/#{title}.rn")
-      end
-
-      def fileExistInBook? file, book
-        return File.exist?("#{self.system_dir}/#{book}/#{file}.rn")
-      end
-
       class Create < Dry::CLI::Command
-        include Notes
         require 'fileutils'
         desc 'Create a note'
 
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
 
-        def createFile file, book
-          FileUtils.touch("#{self.system_dir}/#{book}/#{file}.rn")
-          return "Se creo el archivo en #{book}"
+        def create_file title, book
+          if book_exist? book and !note_exist? book, title
+            TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
+            return "Se creo el archivo en #{book}"
+          else
+            return "Verifique el cuaderno exista y la nota no haya sido creada"
+          end
         end
 
         def call(title:, **options)
           if options[:book]
-            if !self.bookExist? options[:book] or self.fileExistInBook? title, options[:book]
-              return puts "Verifique que exista el cuaderno y que la nota no haya sido creada"
-            else
-              puts self.createFile title, options[:book]
-            end
-          elsif !self.fileExistInBook? title, "global"
-            puts self.createFile title, "global"
-          else
-            puts "La nota ya existe"
-          end        
+              return puts create_file title, options[:book]
+          else 
+            return puts create_file title, "global"
+          end
         end
       end
 
       class Delete < Dry::CLI::Command
         desc 'Delete a note'
-        include Notes
         require 'fileutils'
 
         argument :title, required: true, desc: 'Title of the note'
@@ -66,9 +39,9 @@ module RN
           'thoughts --book Memoires    # Deletes a note titled "thoughts" from the book "Memoires"'
         ]
 
-        def deleteNote book, title
-          if self.bookExist? book and self.noteExist? book, title
-            FileUtils.rm_r "#{self.system_dir}/#{book}/#{title}.rn" 
+        def delete_note book, title
+          if book_exist? book and note_exist? book, title
+            FileUtils.rm_r "#{system_dir}/#{book}/#{title}.rn" 
             return "Se borró la nota #{title}"
           end
           return "No se encontó la nota o el cuaderno existe"
@@ -77,13 +50,9 @@ module RN
         def call(title:, **options)
           book = options[:book]
           if book 
-            if self.bookExist? book and self.noteExist? book, title
-              return puts self.deleteNote book, title
-            end
+              return puts delete_note book, title
           else
-            if self.noteExist? "global", title
-              return puts self.deleteNote "global", title
-            end
+              return puts delete_note "global", title
           end
           return puts "Verifique que la nota y el cuaderno existan"
         end
@@ -101,15 +70,27 @@ module RN
           'thoughts --book Memoires    # Edits a note titled "thoughts" from the book "Memoires"'
         ]
 
+        def edit_note book, title
+          if book_exist? book and note_exist? book, title
+            TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
+            return "Se modificó la nota"
+          else
+            return "Verifique que existan la nota y el cuaderno"
+          end
+        end
+
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar modificación de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if book
+            return puts edit_note book, title
+          else
+            return puts edit_note "global", title      
+          end
         end
       end
 
       class Retitle < Dry::CLI::Command
         desc 'Retitle a note'
-        include Notes
 
         argument :old_title, required: true, desc: 'Current title of the note'
         argument :new_title, required: true, desc: 'New title for the note'
@@ -122,30 +103,28 @@ module RN
         ]
 
         def rename_note old_title, new_title, book
-          File.rename("#{self.system_dir}/#{book}/#{old_title}.rn", "#{self.system_dir}/#{book}/#{new_title}.rn")
-          return "Se modificó el nombre la nota a: #{new_title}" 
+          if book_exist? book and note_exist? book, old_title
+            File.rename("#{system_dir}/#{book}/#{old_title}.rn", "#{system_dir}/#{book}/#{new_title}.rn")
+            return "Se modificó el nombre la nota a: #{new_title}" 
+          else
+            return "Verifique que las notas y el cuaderno existan"
+          end
         end
 
 
         def call(old_title:, new_title:, **options)
           book = options[:book]
-          if book 
-            if self.bookExist? book and self.noteExist? book, old_title
-              return puts self.rename_note old_title, new_title, book
-            end
+          if book         
+              return puts rename_note old_title, new_title, book
           else
-            if self.noteExist? "global", old_title
-              return puts self.rename_note old_title, new_title, "global"
-            end          
+              return puts rename_note old_title, new_title, "global"       
           end
-          return puts "Verifique que la nota y el cuaderno existan"
         end
       end
 
       class List < Dry::CLI::Command
         desc 'List notes'
-        include Notes
-
+        
         option :book, type: :string, desc: 'Book'
         option :global, type: :boolean, default: false, desc: 'List only notes from the global book'
 
@@ -156,16 +135,16 @@ module RN
           '--book Memoires  # Lists notes from the book named "Memoires"'
         ]
 
-        def listAll
-          Dir.foreach(self.system_dir) do |book|
+        def list_all
+          Dir.foreach("#{system_dir}") do |book|
             if book != "." && book != ".."
-              self.list_book book
+              list_book book
             end
           end
         end
 
         def list_book book
-          Dir.foreach("#{self.system_dir}/#{book}") do |file|
+          Dir.foreach("#{system_dir}/#{book}") do |file|
             if file != "." && file != ".."
                puts "Book #{book}: #{file}"
             end
@@ -176,12 +155,12 @@ module RN
           book = options[:book]
           global = options[:global]
           if !book and !global
-            self.listAll
+            list_all
           else 
             if global
-              self.list_book "global"
+              list_book "global"
             else
-              self.list_book book
+              list_book book
             end
           end
         end
@@ -199,9 +178,20 @@ module RN
           'thoughts --book Memoires    # Shows a note titled "thoughts" from the book "Memoires"'
         ]
 
+        def show_note book, title
+          if book_exist? book and note_exist? book, title
+            return puts File.read("#{system_dir}/#{book}/#{title}.rn")
+          end
+          return "Verifique el cuaderno y la nota existan"
+        end
+
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar vista de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if book
+            show_note book, title
+          else
+            show_note "global", title
+          end
         end
       end
     end
