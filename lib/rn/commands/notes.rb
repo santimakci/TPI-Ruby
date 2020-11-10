@@ -10,18 +10,23 @@ module RN
 
         def create_file title, book
           if book_exist? book and !note_exist? book, title
-            TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
-            return "Se creo el archivo en #{book}"
+              TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
+              return "Se creo el archivo en #{book}"
           else
             return "Verifique el cuaderno exista y la nota no haya sido creada"
           end
         end
 
         def call(title:, **options)
-          if options[:book]
+          ex = /^[a-zA-Z\d\s]*$/
+          if !is_valid_name? title
+            return puts "Recuerde que las notas solo pueden contener letras, números y espacios"
+          else
+            if options[:book]
               return puts create_file title, options[:book]
-          else 
-            return puts create_file title, "global"
+            else 
+              return puts create_file title, "global"
+            end
           end
         end
       end
@@ -180,7 +185,7 @@ module RN
 
         def show_note book, title
           if book_exist? book and note_exist? book, title
-            return puts File.read("#{system_dir}/#{book}/#{title}.rn")
+            return File.read("#{system_dir}/#{book}/#{title}.rn")
           end
           return "Verifique el cuaderno y la nota existan"
         end
@@ -188,9 +193,9 @@ module RN
         def call(title:, **options)
           book = options[:book]
           if book
-            show_note book, title
+            puts show_note book, title
           else
-            show_note "global", title
+            puts show_note "global", title
           end
         end
       end

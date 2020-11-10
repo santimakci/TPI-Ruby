@@ -6,29 +6,20 @@ module RN
         argument :name, required: true, desc: 'Name of the book'
         desc 'Create a book'
 
-        def is_valid? name
-          total = (name).scan("/").count
-          if total.positive?
-            return false          
-          else
-            return true
-          end
-        end
-
         def book_create name
           Dir.mkdir "#{system_dir}/#{name}"  
           puts "Se creo el cuadernos satisfactoriamente"
         end
 
         def call(name:, **)
-          if is_valid? name 
+          if is_valid_name? name 
             if !book_exist? name
               book_create name
             else
               puts "El nombre del cuaderno ingresado ya existe"
             end
           else
-            puts "Por favor recuerde no incluir el signo / en el nombre del cuaderno"
+            puts "Por favor recuerde que el nombre de los cuadernos solo pueden contener numeros, letras y espacios"
           end
         end
 

@@ -1,7 +1,14 @@
+#Estas lineas crean el directorio .my_rns y el cuaderno global si es que no existen
 FileUtils.mkdir_p("#{Dir.home}/.my_rns") unless Dir.exists?("#{Dir.home}/.my_rns")
+FileUtils.mkdir_p("#{Dir.home}/.my_rns/global") unless Dir.exists?("#{Dir.home}/.my_rns/global")
 
 def system_dir  
   "#{Dir.home}/.my_rns"
+end
+
+def is_valid_name? name
+  ex = /^[a-zA-Z\d\s]*$/
+  return ex.match(name)
 end
 
 def is_global? title
