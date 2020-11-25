@@ -1,39 +1,21 @@
 module RN
   module Commands
     module Notes
+      
+      
       class Create < Dry::CLI::Command
-        require 'fileutils'
         desc 'Create a note'
-
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
 
-        def create_file title, book
-          if book_exist? book and !note_exist? book, title
-              TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
-              return "Se creo el archivo en #{book}"
-          else
-            return "Verifique el cuaderno exista y la nota no haya sido creada"
-          end
+        def call(title:, **options)
+          Note.create title, options[:book]
         end
 
-        def call(title:, **options)
-          ex = /^[a-zA-Z\d\s]*$/
-          if !is_valid_name? title
-            return puts "Recuerde que las notas solo pueden contener letras, números y espacios"
-          else
-            if options[:book]
-              return puts create_file title, options[:book]
-            else 
-              return puts create_file title, "global"
-            end
-          end
-        end
       end
 
       class Delete < Dry::CLI::Command
         desc 'Delete a note'
-        require 'fileutils'
 
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
@@ -44,22 +26,8 @@ module RN
           'thoughts --book Memoires    # Deletes a note titled "thoughts" from the book "Memoires"'
         ]
 
-        def delete_note book, title
-          if book_exist? book and note_exist? book, title
-            FileUtils.rm_r "#{system_dir}/#{book}/#{title}.rn" 
-            return "Se borró la nota #{title}"
-          end
-          return "No se encontó la nota o el cuaderno existe"
-        end
-
         def call(title:, **options)
-          book = options[:book]
-          if book 
-              return puts delete_note book, title
-          else
-              return puts delete_note "global", title
-          end
-          return puts "Verifique que la nota y el cuaderno existan"
+          Note.delete_note title, options[:book]
         end
       end
 
@@ -75,22 +43,8 @@ module RN
           'thoughts --book Memoires    # Edits a note titled "thoughts" from the book "Memoires"'
         ]
 
-        def edit_note book, title
-          if book_exist? book and note_exist? book, title
-            TTY::Editor.open("#{system_dir}/#{book}/#{title}.rn")
-            return "Se modificó la nota"
-          else
-            return "Verifique que existan la nota y el cuaderno"
-          end
-        end
-
         def call(title:, **options)
-          book = options[:book]
-          if book
-            return puts edit_note book, title
-          else
-            return puts edit_note "global", title      
-          end
+          Note.edit options[:book], title
         end
       end
 
@@ -107,23 +61,8 @@ module RN
           'thoughts thinking --book Memoires         # Changes the title of the note titled "thoughts" from the book "Memoires" to "thinking"'
         ]
 
-        def rename_note old_title, new_title, book
-          if book_exist? book and note_exist? book, old_title
-            File.rename("#{system_dir}/#{book}/#{old_title}.rn", "#{system_dir}/#{book}/#{new_title}.rn")
-            return "Se modificó el nombre la nota a: #{new_title}" 
-          else
-            return "Verifique que las notas y el cuaderno existan"
-          end
-        end
-
-
         def call(old_title:, new_title:, **options)
-          book = options[:book]
-          if book         
-              return puts rename_note old_title, new_title, book
-          else
-              return puts rename_note old_title, new_title, "global"       
-          end
+          Note.retitle old_title, new_title, options[:book]
         end
       end
 
@@ -140,34 +79,8 @@ module RN
           '--book Memoires  # Lists notes from the book named "Memoires"'
         ]
 
-        def list_all
-          Dir.foreach("#{system_dir}") do |book|
-            if book != "." && book != ".."
-              list_book book
-            end
-          end
-        end
-
-        def list_book book
-          Dir.foreach("#{system_dir}/#{book}") do |file|
-            if file != "." && file != ".."
-               puts "Book #{book}: #{file}"
-            end
-          end
-        end
-
         def call(**options)
-          book = options[:book]
-          global = options[:global]
-          if !book and !global
-            list_all
-          else 
-            if global
-              list_book "global"
-            else
-              list_book book
-            end
-          end
+          Note.list_notes options[:book], options[:global]
         end
       end
 
@@ -183,21 +96,10 @@ module RN
           'thoughts --book Memoires    # Shows a note titled "thoughts" from the book "Memoires"'
         ]
 
-        def show_note book, title
-          if book_exist? book and note_exist? book, title
-            return File.read("#{system_dir}/#{book}/#{title}.rn")
-          end
-          return "Verifique el cuaderno y la nota existan"
+        def call(title:, **options)
+          Note.show title, options[:book]
         end
 
-        def call(title:, **options)
-          book = options[:book]
-          if book
-            puts show_note book, title
-          else
-            puts show_note "global", title
-          end
-        end
       end
     end
   end

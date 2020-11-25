@@ -1,9 +1,8 @@
 module RN
   module Commands
-    autoload :Books, 'rn/commands/books'
     autoload :Notes, 'rn/commands/notes'
     autoload :Version, 'rn/commands/version'
-
+    autoload :Books, 'rn/commands/books'
     extend Dry::CLI::Registry
 
     register 'books', aliases: ['b'] do |prefix|

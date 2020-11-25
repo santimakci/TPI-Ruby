@@ -1,7 +1,9 @@
 module RN
   autoload :VERSION, 'rn/version'
   autoload :Commands, 'rn/commands'
-  require_relative "rn/global"
+  require_relative 'rn/global.rb'
+  require_relative 'rn/commands/Classes/Book.rb'
+  require_relative 'rn/commands/Classes/Note.rb'
 
   # Agregar aquí cualquier autoload que sea necesario para que se cargue las clases y
   # módulos del modelo de datos.
