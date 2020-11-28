@@ -94,7 +94,7 @@ class Note
 
     def self.list_book book
         Dir.foreach("#{system_dir}/#{book}") do |file|
-            if file != "." && file != ".."
+            if file != "." && file != ".." && File.file?("#{system_dir}/#{book}/#{file}")
                 puts "Book #{book}: #{file}"
             end
         end
@@ -128,5 +128,60 @@ class Note
             puts self.show_note "global$", title
         end
     end
+
+    ##########################################EXPORT NOTE##########################################################
+
+    def self.generate_html title, book
+        text = self.show_note book, title
+        markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+        htmlfinal = markdown.render(text)
+        return htmlfinal
+    end
+
+    def self.create_html title, book
+        if book_exist? book and note_exist? book, title
+            html_text= self.generate_html title, book
+            FileUtils.touch("#{system_dir}/#{book}/exports$/#{title}.html")    
+            File.write("#{system_dir}/#{book}/exports$/#{title}.html", html_text)  
+            return "Se exportó el archivo #{title}"
+        else
+            return "Verifique el cuaderno exista y la nota no haya sido creada"
+        end
+    end
+
+    def self.export_all
+        Dir.foreach("#{system_dir}") do |book|
+          if book != "." && book != ".."
+            self.export_all_book book
+            end
+        end
+        return "Se exportaron todos los archivos a HTML"
+    end
+
+    def self.export_all_book book
+        Dir.foreach("#{system_dir}/#{book}") do |file|
+            if file != "." && file != ".." && File.file?("#{system_dir}/#{book}/#{file}")
+               name = file.split(/[ \.]/)
+               html_text= self.generate_html name[0], book
+               FileUtils.touch("#{system_dir}/#{book}/exports$/#{name[0]}.html")    
+               File.write("#{system_dir}/#{book}/exports$/#{name[0]}.html", html_text)
+            end
+        end
+    end
+        
+    def self.export title, book, all
+        if !title and !all
+            return puts "Por favor especifique que desea exportar"
+        end     
+        if all
+            return puts self.export_all
+        end
+        if book
+            puts self.create_html title, book
+        else
+            puts self.create_html title, "global$"
+        end
+        
+    end 
 
 end

@@ -5,7 +5,8 @@ class Book
     ##########################################CREATE BOOK##########################################################
 
     def self.book_create name
-        Dir.mkdir "#{system_dir}/#{name}"  
+        Dir.mkdir "#{system_dir}/#{name}" 
+        Dir.mkdir "#{system_dir}/#{name}/exports$"   
         puts "Se creo el cuadernos satisfactoriamente"
     end
 
@@ -52,7 +53,7 @@ class Book
 
     def self.list_books
       Dir.foreach(system_dir) do |dir|
-        if File.directory?("#{system_dir}/#{dir}") && dir != "." && dir != ".."
+        if File.directory?("#{system_dir}/#{dir}") && dir != "." && dir != ".." && dir != "global$"
           puts dir
         end
       end

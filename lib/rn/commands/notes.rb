@@ -101,6 +101,28 @@ module RN
         end
 
       end
+
+      class Export < Dry::CLI::Command
+        desc 'Export note to html'
+       
+
+        argument :title, default:false, desc: 'Title of the note'
+        option :book, type: :string, desc: 'Book'
+        option :all, type: :boolean, default: false, desc: 'Operate on the global book'
+
+        example [
+          ' "nota"                     #Exportar "nota" del cuaderno global',
+          '"nota" --book "My book"     #Exportar "nota" a html del cuaderno "My book"',
+          '-sin parametros-              #Exportar todas las notas de todos los cuadernos"'
+        ]
+
+        def call(title:, **options)
+          Note.export title, options[:book], options[:all]
+        end
+
+      end
+
+
     end
   end
 end

@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+system((__FILE__).gsub('bin/logminer', 'script/logminer') + ' ' + ARGV.join(' '))

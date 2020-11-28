@@ -1,0 +1,173 @@
+/home/andromeda/Resource/Sobolema/lib abtte
+# lib = Ascii85-1.0.2
+/home/andromeda/Resource/Sobolema/lib airck
+# lib = actionmailer-3.2.8
+# lib = actionpack-3.2.8
+# lib = activemodel-3.2.8
+# lib = activerecord-3.2.8
+# lib = activeresource-3.2.8
+# lib = activesupport-3.2.8
+# lib = rails-3.2.8
+# lib = railties-3.2.8
+/home/andromeda/Resource/Sobolema/lib ardbt
+# lib = i18n-active_record-0.0.2
+/home/andromeda/Resource/Sobolema/lib arfda
+# lib = activerecord-fb-adapter-0.9.1(UNKNOWN)
+/home/andromeda/Resource/Sobolema/lib aroea
+# lib = activerecord-oracle_enhanced-adapter-1.4.3
+/home/andromeda/Resource/Sobolema/lib arsdp
+# lib = axlsx-1.3.4
+/home/andromeda/Resource/Sobolema/lib arsea
+# lib = arsea-X.X.X(HELPER)
+/home/andromeda/Resource/Sobolema/lib arssa
+# lib = activerecord-sqlserver-adapter-3.2.18
+/home/andromeda/Resource/Sobolema/lib arsth
+# lib = axlsx_rails-0.3.0
+/home/andromeda/Resource/Sobolema/lib aswsh
+# lib = axlsx_styler-0.1.2
+/home/andromeda/Resource/Sobolema/lib bradm
+# lib = bundler-1.5.2
+/home/andromeda/Resource/Sobolema/lib brsvs
+# lib = brakeman-2.0.0
+/home/andromeda/Resource/Sobolema/lib cabcf
+# lib = celluloid-0.12.4
+/home/andromeda/Resource/Sobolema/lib cbcst
+# lib = coffeebeans-1.0.1
+/home/andromeda/Resource/Sobolema/lib csapa
+# lib = coffee-rails-3.2.2
+/home/andromeda/Resource/Sobolema/lib cscll
+# lib = cocaine-0.4.2
+/home/andromeda/Resource/Sobolema/lib cscsl
+# lib = coffee-script-source-1.4.0
+/home/andromeda/Resource/Sobolema/lib csmcb
+# lib = coffee-script-2.2.0
+/home/andromeda/Resource/Sobolema/lib csram
+# lib = cancan-1.6.8
+/home/andromeda/Resource/Sobolema/lib dabsp
+# lib = devise-async-0.5.1
+/home/andromeda/Resource/Sobolema/lib dccss
+# lib = database_cleaner-0.9.1
+/home/andromeda/Resource/Sobolema/lib dcsdk
+# lib = dropbox-sdk-1.5.1
+/home/andromeda/Resource/Sobolema/lib dhpmc
+# lib = dalli-2.7.0
+/home/andromeda/Resource/Sobolema/lib drfas
+# lib = devise-2.1.2
+/home/andromeda/Resource/Sobolema/lib fmcpm
+# lib = foreman-0.61.0
+/home/andromeda/Resource/Sobolema/lib hbbmw
+# lib = has_barcode-0.2.3
+/home/andromeda/Resource/Sobolema/lib hfhte
+# lib = haml-3.1.7
+/home/andromeda/Resource/Sobolema/lib hmcah
+# lib = hirb-0.7.0
+/home/andromeda/Resource/Sobolema/lib hsmte
+# lib = haml-rails-0.3.5
+/home/andromeda/Resource/Sobolema/lib ilrsm
+# lib = i18n-0.6.1
+/home/andromeda/Resource/Sobolema/lib lraph
+# lib = less-rails-2.2.6
+/home/andromeda/Resource/Sobolema/lib nrrpm
+# lib = newrelic_rpm-3.5.0
+/home/andromeda/Resource/Sobolema/lib oadep
+# lib = orm_adapter-0.4.0
+/home/andromeda/Resource/Sobolema/lib ofcrp
+# lib = open_flash_chart-2.0.2
+/home/andromeda/Resource/Sobolema/lib pamds
+# lib = paperclip-dropbox-1.1.2(UNKNOWN)
+/home/andromeda/Resource/Sobolema/lib pcfam
+# lib = paperclip-3.4.0
+/home/andromeda/Resource/Sobolema/lib pdfpl
+# lib = pdf-reader-1.3.1
+/home/andromeda/Resource/Sobolema/lib pfcas
+# lib = puma-3.0.2
+/home/andromeda/Resource/Sobolema/lib prmph
+# lib = polyamorous-0.5.0
+/home/andromeda/Resource/Sobolema/lib prndg
+# lib = prawn-0.12.0
+/home/andromeda/Resource/Sobolema/lib prvel
+# lib = prawn_rails-0.0.11
+/home/andromeda/Resource/Sobolema/lib ptmdt
+# lib = paper_trail-2.7.1
+/home/andromeda/Resource/Sobolema/lib rabtf
+# lib = rspec-rails-2.12.2
+/home/andromeda/Resource/Sobolema/lib rapic
+# lib = redis-3.0.2
+# lib = redis-store-1.1.7
+/home/andromeda/Resource/Sobolema/lib rbpcs
+# lib = rails_best_practices-1.13.8
+/home/andromeda/Resource/Sobolema/lib rcfmp
+# lib = redcarpet-3.3.2
+/home/andromeda/Resource/Sobolema/lib rerdg
+# lib = rails_erd-1.1.0
+/home/andromeda/Resource/Sobolema/lib rgrte
+# lib = rabl-0.8.0
+/home/andromeda/Resource/Sobolema/lib rhknm
+# lib = redis-namespace-1.0.4(UNKNOWN)
+/home/andromeda/Resource/Sobolema/lib rirfe
+# lib = railties-3.2.8
+/home/andromeda/Resource/Sobolema/lib rmdtv
+# lib = date_validator-0.7.0
+/home/andromeda/Resource/Sobolema/lib rmpma
+# lib = mail-2.4.4
+/home/andromeda/Resource/Sobolema/lib rmpqg
+# lib = rqrcode-rails3-0.1.6
+/home/andromeda/Resource/Sobolema/lib rmrwi
+# lib = rack-1.4.1
+# lib = rack-cache-1.2
+# lib = rack-protection-1.3.2
+# lib = rack-ssl-1.3.2
+# lib = rack-test-0.6.2
+/home/andromeda/Resource/Sobolema/lib rmsqh
+# lib = ransack-0.7.1
+/home/andromeda/Resource/Sobolema/lib rocih
+# lib = rocih-X.X.X(HELPER)
+/home/andromeda/Resource/Sobolema/lib rowaf
+# lib = rails-3.2.8
+/home/andromeda/Resource/Sobolema/lib rtmfr
+# lib = rake-10.0.2
+# lib = rake-compiler-0.8.3
+/home/andromeda/Resource/Sobolema/lib sahqb
+# lib = squeel-1.0.14
+/home/andromeda/Resource/Sobolema/lib sarsa
+# lib = sass-rails-3.2.6
+/home/andromeda/Resource/Sobolema/lib shpcp
+# lib = swiftiply-0.6.1(UNKNOWN)
+/home/andromeda/Resource/Sobolema/lib sqrwa
+# lib = sinatra-1.3.4
+/home/andromeda/Resource/Sobolema/lib sraps
+# lib = sprockets-2.1.3
+/home/andromeda/Resource/Sobolema/lib srdtp
+# lib = sablon-0.0.16
+/home/andromeda/Resource/Sobolema/lib srsbp
+# lib = sidekiq-2.6.5
+/home/andromeda/Resource/Sobolema/lib srsca
+# lib = code_analyzer-0.3.2
+/home/andromeda/Resource/Sobolema/lib trtpi
+# lib = treetop-1.4.12
+/home/andromeda/Resource/Sobolema/lib tsrws
+# lib = thin-1.5.0
+/home/andromeda/Resource/Sobolema/lib ttdsl
+# lib = tiny_tds-0.7.0
+/home/andromeda/Resource/Sobolema/lib turat
+# lib = test-unit-3.0.9
+/home/andromeda/Resource/Sobolema/lib udwrs
+# lib = unicode-display_width-0.1.1(UNKNOWN)
+/home/andromeda/Resource/Sobolema/lib wparp
+# lib = will_paginate-3.0.3
+/home/andromeda/Resource/Sobolema/lib wrcsh
+# lib = hirb-unicode-0.0.5
+/home/andromeda/Resource/Sobolema/lib wsram
+# lib = warden-1.2.1
+
+##### APP-DEP-IDX ##### APP-DEP-IDX #####
+
+cd /home/andromeda/Resource/Sobolema/lib
+for file in {.,}*
+do
+  if [[ $file != '.' && $file != '..' ]]
+  then
+    echo `pwd`' '$file''
+    cat $file/src/*.gemspec | grep '# lib = '
+  fi
+done

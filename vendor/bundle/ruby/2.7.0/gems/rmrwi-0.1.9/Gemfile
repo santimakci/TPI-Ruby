@@ -1,0 +1,14 @@
+source :rubygems
+
+################## SEGMENT (rack-test-0.6.2) ##################
+
+gem 'rspec'
+gem "rack"
+gem "sinatra"
+gem 'rake'
+
+################## SEGMENT (rack-1.4.1) ##################
+
+gemspec
+
+################## ################## ##################
