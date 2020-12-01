@@ -149,6 +149,14 @@ class Note
         end
     end
 
+    def self.export_in_book book
+        if book_exist? book
+            self.export_all_book book
+            return "Se exportaron todos los archivos del cuaderno #{book}"
+        end
+        "El cuaderno no existe"
+    end 
+
     def self.export_all
         Dir.foreach("#{system_dir}") do |book|
           if book != "." && book != ".."
@@ -161,7 +169,7 @@ class Note
     def self.export_all_book book
         Dir.foreach("#{system_dir}/#{book}") do |file|
             if file != "." && file != ".." && File.file?("#{system_dir}/#{book}/#{file}")
-               name = file.split(/[ \.]/)
+               name = file.split(/[\.]/)
                html_text= self.generate_html name[0], book
                FileUtils.touch("#{system_dir}/#{book}/exports$/#{name[0]}.html")    
                File.write("#{system_dir}/#{book}/exports$/#{name[0]}.html", html_text)
@@ -170,16 +178,16 @@ class Note
     end
         
     def self.export title, book, all
-        if !title and !all
-            return puts "Por favor especifique que desea exportar"
-        end     
-        if all
+        if !title and !all and !book
+            return puts "Por favor especifique que desea exportar"    
+        elsif all
             return puts self.export_all
-        end
-        if book
-            puts self.create_html title, book
+        elsif book and !title
+            return puts self.export_in_book book
+        elsif book
+            return puts self.create_html title, book
         else
-            puts self.create_html title, "global$"
+            return self.create_html title, "global$"
         end
         
     end 

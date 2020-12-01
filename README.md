@@ -22,6 +22,38 @@ Se detalla acontinuación a modo de ejemplo la creación y eliminación de una n
 -Editar una nota
 
 
+# Export (Nuevo)
+
+Utilizando este comando, podremos exportar una o más de una de nuestras notas, escritas en Markdown
+a fomrmato HTML. Podemos indicarle el nombre y/o cuaderno específico si es que lo tiene, con los siguientes comandos:
+
+Sin indicar el cuaderno
+
+```bash
+$ ruby bin/rn n export "Nota 1"
+```
+ o espicifándoselo con el siguiente comando 
+
+ ```bash
+$ ruby bin/rn n export "Nota 1" --book "Cuaderno"
+```
+
+Además se puede indicar solo el cuaderno que se desea exportar enviando --book y el nombre del cuaderno únicamente
+
+  ```bash
+$ ruby bin/rn n export --book "Cuaderno"
+```
+ 
+ U se puede optar por exportar todas las notas con el comando --all
+
+  ```bash
+$ ruby bin/rn n export --all
+```
+
+En caso de existir ya una nota exportada la misma será reemplada
+
+
+
 # Create
 
 Este comando nos creará un cuaderno. Si el mismo ya existe o no contiene un nombre válido se nos avisará del problema.
