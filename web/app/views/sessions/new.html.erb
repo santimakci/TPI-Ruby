@@ -1,0 +1,72 @@
+<% if !logged_in? %>
+<style>
+   html,
+        body {
+            height: 100%;
+        }
+        html {
+            display: table;
+            margin: auto;
+        }
+        body {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        #iniciar{
+           color:white
+        }
+    </style>
+
+ <%= form_tag '/login' do %>
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card">
+    <div class="card-panel z-depth-5">
+
+        <!-- Form Username Input Section -->
+
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">person</i>
+                <%= label_tag :username%>
+               <%= text_field_tag :username %>
+            </div>
+        </div>
+
+        <!-- Form Password Input Section -->
+
+        <div class="col m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                   <%= label_tag :password%>
+                   <%= password_field_tag :password%>
+            </div>
+        </div>
+
+        <div class="center">
+               <input id="iniciar" type="submit" name="commit" value="Iniciar Sesion" class="waves-effect waves-light btn " 
+               style="width:100%; background-color: #B22222; color:white">
+        </div>
+
+        <div class="" style="font-size:14px;"><br>
+            <a href="/users/new" class="left">Registrate</a>
+        </div><br>
+    </div>
+<%end%>
+</div>
+</div>
+</div>
+
+
+
+              
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <script type="text/javascript" 
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js">
+    </script>
+<% else %>
+<h1>YA SE ENCUENTRA LOGUEADO</h1>
+<% end %>

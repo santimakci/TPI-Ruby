@@ -1,0 +1,15 @@
+<h1>Welcome</h1>
+
+
+
+<% if logged_in? %>
+    <h1>You are Logged In, <%= current_user.username %></h1>
+    <%= button_to 'Cerrar sesion', '/close', method: :post %>
+<%end%>
+<% if !logged_in? %>
+<%= button_to "Login", '/login', method: :get, class:"waves-effect waves-light btn" %>
+<%= button_to "Sign Up", '/users/new', method: :get %>
+<%end%>
+
+
+
