@@ -1,0 +1,28 @@
+<div class="center">
+<h1 style="justify-conent:center"><%= @book_name[:name]%></h1>
+</div>
+
+<table class="center striped" style="width: 80%; margin-left: 10%;">
+
+  <tbody>
+    <% @notes.each do |note| %>
+      <tr>
+        <td>
+          <i class="material-icons">event_note</i> 
+          <a class="book-name-position" href="books/<%=note.id%>?note=<%=note.id%>"> <%= note.title %></a>
+        </td>
+        <td>
+          <a class="not-hover" href="notes/<%=note.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
+        </td>
+        <td>
+          <%= link_to note_path(:id => note.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar esta nota?' } do %>
+            <i class="material-icons">delete</i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="center">
+  <a href="/notes/new?book=<%=@book_name[:id]%>" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Nota</a>
+</div>

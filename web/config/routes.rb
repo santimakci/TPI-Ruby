@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :notes
+  resources :books
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   get 'welcome', to: 'sessions#welcome'

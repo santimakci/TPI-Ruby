@@ -1,0 +1,58 @@
+<p id="notice"><%= notice %></p>
+
+<div class="center">
+<h1 style="justify-conent:center">Tus cuadernos</h1>
+</div>
+<table class="center striped" style="width: 80%; margin-left: 10%;">
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td>
+          <i class="material-icons">folder</i> 
+          <a class="book-name-position" href="books/<%=book.id%>?book=<%=book.id%>"> <%= book.name %></a>
+        </td>
+        <td>
+          <a class="not-hover" href="books/<%=book.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
+        </td>
+        <td>
+          <%= link_to book_path(:id => book.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar este cuaderno?' } do %>
+            <i class="material-icons">delete</i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+    <% @notes.each do |note| %>
+      <tr>
+        <td>
+          <i class="material-icons">event_note</i> 
+          <a class="book-name-position" href="notes/<%=note.id%>"> <%= note.title %></a>
+        </td>
+        <td>
+          <a class="not-hover" href="notes/<%=note.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
+        </td>
+        <td>
+          <%= link_to note_path(:id => note.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar esta nota?' } do %>
+            <i class="material-icons">delete</i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+
+
+
+
+
+
+
+  </tbody>
+</table>
+
+<br>
+
+<div class="center">
+<a href="books/new" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Cuaderno</a>
+<a href="notes/new" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Nota</a>
+</div>
+

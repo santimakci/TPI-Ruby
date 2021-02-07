@@ -1,12 +1,13 @@
 //= require rails-ujs
 //= require jquery
+//= require jquery_ujs
 //= require materialize
 //= require turbolinks
 //= require_tree .
 
-$(document).on('turbolinks:load', function() {
-  $('.dropdown-trigger').dropdown();
-});
+require("jquery")
+
+
 
 import Rails from "@rails/ujs";
 import Turbolinks from "turbolinks";

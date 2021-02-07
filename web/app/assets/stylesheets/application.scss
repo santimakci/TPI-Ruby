@@ -63,3 +63,35 @@ $secondary-color: color("red", "base") !default;
 #logo-container:hover{
     background-color: transparent;
 }
+
+.not-hover:hover{
+    background-color: transparent;
+    color: black;
+}
+
+.not-hover{
+  color: #333;
+}
+
+.items-center{
+    justify-content: center;
+    display: flex;
+    position: fixed;
+    margin-left: 30%;
+}
+
+.bar-button:hover{
+  color:black;
+  background-color: grey;
+  opacity: 20%;
+}
+
+.book-name-position{
+    margin-top: 3px;
+    margin-left: 15px;
+    position: absolute;
+}
+
+.buton-text{
+  color: white !important;
+}
