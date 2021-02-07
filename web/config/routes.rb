@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   post 'close', to: 'sessions#close'
   resources :users, only: [:new, :create]
   root to: 'sessions#welcome'
+
+  post 'notes/export', to:'notes#export'
 end

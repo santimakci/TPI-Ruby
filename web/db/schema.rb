@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_012205) do
 
   create_table "books", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_books_on_user_id"
@@ -23,9 +23,10 @@ ActiveRecord::Schema.define(version: 2021_02_05_012205) do
   create_table "notes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "text"
-    t.bigint "book_id", null: false
+    t.bigint "book_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.index ["book_id"], name: "index_notes_on_book_id"
   end
 

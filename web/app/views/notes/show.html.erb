@@ -1,19 +1,40 @@
-<p id="notice"><%= notice %></p>
+<br><br><br>
+<div class="row">
 
-<p>
-  <strong>Title:</strong>
-  <%= @note.title %>
-</p>
+    <div class="col s6 offset-s3">
+    <div class="card">
+    <div class="card-panel z-depth-5">
 
-<p>
-  <strong>Text:</strong>
-  <%= @note.text %>
-</p>
+        <!-- Form Username Input Section -->
 
-<p>
-  <strong>Book:</strong>
-  <%= @note.book_id %>
-</p>
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">title</i>
+                   <input disabled value="<%= @note.title %>" > </input>
+            </div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">format_color_text</i>
+                <input disabled class="input-size" type="text" value="<%= @note.text %>" > </input>
+            </div>
+        </div>
+        <% if flash[:htmlfinal]%>
+           <div class="col s12 m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">web</i>
+                <input  class="input-size" type="text" value="<%= flash[:htmlfinal] %>" > </input>
+            </div>
+        </div>
 
-<%= link_to 'Edit', edit_note_path(@note) %> |
-<%= link_to 'Back', notes_path %>
+        <%end%>
+        <div class="center">
+             <%= link_to 'Exportar', notes_export_path(@note), class:'waves-effect waves-light btn buton-export', method: :post%>
+              <%= link_to 'Editar', edit_note_path(@note), class:'waves-effect waves-light btn buton-export' %>
+        </div>
+
+
+
+    </div>
+    </div>
+</div>

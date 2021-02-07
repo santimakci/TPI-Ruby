@@ -1,11 +1,11 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
-
+  include ApplicationHelper
   # GET /books or /books.json
   def index
 
     @books = Book.where(user_id: current_user.id).all
-    @notes = Note.where(book_id:  [nil])
+    @notes = Note.where(book_id:  [nil], user_id: current_user.id)
   end
 
   # GET /books/1 or /books/1.json
@@ -30,6 +30,10 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @book[:user_id] = current_user.id
     @exist = Book.where(name: @book[:name], user_id: current_user.id)
+    
+    if ( (is_valid_name? @book[:name]).nil? )
+      return redirect_to '/books', flash:{messages: "Los cuadernos solo pueden contener letras, números y espacios" }
+    end
 
     if @exist.any?
       redirect_to '/books/new', flash:{messages: "Ya existe un cuaderno con ese nombre" }

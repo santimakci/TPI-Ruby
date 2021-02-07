@@ -21,7 +21,7 @@
         </td>
       </tr>
     <% end %>
-
+    <% if !@notes.empty? %>
     <% @notes.each do |note| %>
       <tr>
         <td>
@@ -37,6 +37,7 @@
           <% end %>
         </td>
       </tr>
+    <% end %>
     <% end %>
 
 
