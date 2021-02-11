@@ -27,6 +27,10 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
+    @note_user =  Note.where(id: params[:id].to_i).first
+    if current_user.id != @note_user[:user_id]
+      return redirect_to '/books'
+    end
   end
 
   # POST /notes or /notes.json

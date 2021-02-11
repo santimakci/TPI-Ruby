@@ -22,7 +22,11 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
-    
+    @book_user =  Book.where(id: params[:id].to_i).first
+    if current_user.id != @book_user[:user_id]
+      return redirect_to '/books'
+    end
+
   end
 
   # POST /books or /books.json

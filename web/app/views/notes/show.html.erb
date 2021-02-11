@@ -16,14 +16,14 @@
         <div class="col s12 m12 l12">
             <div class="input-field">
                 <i class="material-icons prefix">format_color_text</i>
-                <input disabled class="input-size" type="text" value="<%= @note.text %>" > </input>
+                <textarea disabled class="input-size" type="text" value="" > <%= @note.text %></textarea>
             </div>
         </div>
         <% if flash[:htmlfinal]%>
            <div class="col s12 m12 l12">
             <div class="input-field">
                 <i class="material-icons prefix">web</i>
-                <input  class="input-size" type="text" value="<%= flash[:htmlfinal] %>" > </input>
+                <textarea  style="height: 250px;" class="input-size" type="text" value="" > <%= flash[:htmlfinal] %></textarea>
             </div>
         </div>
 
