@@ -20,13 +20,14 @@
 
         <% if !logged_in? %> 
           <ul class="right hide-on-med-and-down">
-            <li><a style="color: white;font-weight: bold;" href="/login">
-            <i class="material-icons">input</i></a></li>
+            <li><%=link_to login_path do %>
+            <i class="material-icons estilo-login">input</i></a></li>
+            <% end %>
           </ul>
         <% else %>
         <div>
           <div class=" items-center">
-            <a class="bar-button" style="color:white" href='/books'>Books</a>
+          <%=link_to "Books", books_path, class:'bar-button white-text' %>
 
           </div>
           <div>

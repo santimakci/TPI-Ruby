@@ -1,24 +1,50 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
+  require 'zip'
   include ApplicationHelper
   # GET /books or /books.json
   def index
-
     @books = Book.where(user_id: current_user.id).all
     @notes = Note.where(book_id:  [nil], user_id: current_user.id)
   end
 
   # GET /books/1 or /books/1.json
   def show
-    @book_id = request.query_parameters
-    @book_name =  Book.where(id: @book_id[:book]).first
-    @notes = Note.where(book_id: @book_id[:book])
+    @notes = Note.notes_for_book params[:id].to_i    
   end
 
   # GET /books/new
   def new
     @book = Book.new
   end
+
+  def export_all
+    filename = "notas.zip"
+    temp_file = Tempfile.new(filename)
+    if params[:format] != nil
+      @notes_in_book = Note.notes_for_book params[:format].to_i
+    else
+      @notes_in_book = Note.notes_for_user current_user.id
+    end
+    begin
+      Zip::OutputStream.open(temp_file) { |zipf| }
+      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zipfile|
+        @notes_in_book.each do |nota|
+          @htmlfinal = export nota.id
+          file = Tempfile.new("#{nota.title}.html")
+          file.write(@htmlfinal)
+          file.close
+          zipfile.add("#{nota.title}.html", file)
+        end
+      end
+      zip_data = File.read(temp_file.path)
+      send_data(zip_data, type: 'application/zip', filename: filename)
+    ensure 
+      temp_file.close
+      temp_file.unlink
+    end
+  end
+
 
   # GET /books/1/edit
   def edit
@@ -33,13 +59,8 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book[:user_id] = current_user.id
-    @exist = Book.where(name: @book[:name], user_id: current_user.id)
-    
-    if ( (is_valid_name? @book[:name]).nil? )
-      return redirect_to '/books', flash:{messages: "Los cuadernos solo pueden contener letras, números y espacios" }
-    end
 
-    if @exist.any?
+    if Book.exist_book? @book[:name], current_user.id
       redirect_to '/books/new', flash:{messages: "Ya existe un cuaderno con ese nombre" }
     else
       respond_to do |format|
@@ -79,6 +100,9 @@ class BooksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
+      if (Book.book_by_id params[:id]).nil?
+        return redirect_to '/books'
+      end
       @book = Book.find(params[:id])
     end
 

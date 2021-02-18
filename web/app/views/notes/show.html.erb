@@ -19,17 +19,15 @@
                 <textarea disabled class="input-size" type="text" value="" > <%= @note.text %></textarea>
             </div>
         </div>
-        <% if flash[:htmlfinal]%>
            <div class="col s12 m12 l12">
             <div class="input-field">
                 <i class="material-icons prefix">web</i>
-                <textarea  style="height: 250px;" class="input-size" type="text" value="" > <%= flash[:htmlfinal] %></textarea>
+                
+                <textarea  disabled style="height: 250px;" class="input-size" type="text" value="" > <%= @htmlfinal %></textarea>
             </div>
         </div>
-
-        <%end%>
         <div class="center">
-             <%= link_to 'Exportar', notes_export_path(@note), class:'waves-effect waves-light btn buton-export', method: :post%>
+             <%= link_to 'Exportar', notes_download_path(@note), class:'waves-effect waves-light btn buton-export', method: :post%>
               <%= link_to 'Editar', edit_note_path(@note), class:'waves-effect waves-light btn buton-export' %>
         </div>
 

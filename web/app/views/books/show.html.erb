@@ -1,5 +1,5 @@
 <div class="center">
-<h1 style="justify-conent:center"><%= @book_name[:name]%></h1>
+<h1 style="justify-conent:center"><%= @book[:name]%></h1>
 </div>
 
 <table class="center striped" style="width: 80%; margin-left: 10%;">
@@ -9,11 +9,13 @@
       <tr>
         <td>
           <i class="material-icons">event_note</i> 
-          <a class="book-name-position" href="/notes/<%=note.id%>?note=<%=note.id%>"> <%= note.title %></a>
-        </td>
+          <%= link_to note_path(:id => note.id), class:'book-name-position' do %>
+            <%= note.title %>
+          <% end %>        </td>
         <td>
-          <a class="not-hover" href="notes/<%=note.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
-        </td>
+      <%= link_to edit_note_path(:id => note.id), class:'not-hover' do %>
+          <i class="material-icons">mode_edit</i> 
+        <% end %>        </td>
         <td>
           <%= link_to note_path(:id => note.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar esta nota?' } do %>
             <i class="material-icons">delete</i>
@@ -23,6 +25,12 @@
     <% end %>
   </tbody>
 </table>
+<br>
 <div class="center">
-  <a href="/notes/new?book=<%=@book_name[:id]%>" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Nota</a>
+<%= link_to new_note_path(@book), class:'buton-text waves-effect waves-light btn' do %>
+  <i class="material-icons left">add</i>Crear nota
+<% end %>
+<%= link_to books_export_all_path(@book), class:'buton-text all-st waves-effect waves-light btn', method: :post  do%>
+  <i class="material-icons left">add</i>Exportar todo
+<% end %>
 </div>

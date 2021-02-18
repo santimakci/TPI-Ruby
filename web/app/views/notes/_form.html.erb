@@ -34,8 +34,13 @@
             </div>
         </div>
         <div class="field">
-          <% if params[:book] %>
-            <%= form.hidden_field :book_id, :value => params[:book]%>
+          <% if params[:format] %>
+            <%= form.hidden_field :book_id, :value => params[:format]%>
+          <%end%>
+        </div>
+        <div class="field">
+          <% if params[:format] %>
+            <%= form.hidden_field :user_id, :value => current_user.id%>
           <%end%>
         </div>
 

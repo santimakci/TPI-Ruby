@@ -8,11 +8,16 @@
     <% @books.each do |book| %>
       <tr>
         <td>
+
           <i class="material-icons">folder</i> 
-          <a class="book-name-position" href="books/<%=book.id%>?book=<%=book.id%>"> <%= book.name %></a>
+          <%= link_to book_path(:id => book.id), class:'book-name-position' do %>
+          <%= book.name %>
+          <%end%>
         </td>
         <td>
-          <a class="not-hover" href="books/<%=book.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
+          <%= link_to edit_book_path(:id => book.id), class:'not-hover' do %>
+           <i class="material-icons">mode_edit</i> 
+          <% end %>
         </td>
         <td>
           <%= link_to book_path(:id => book.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar este cuaderno?' } do %>
@@ -25,11 +30,14 @@
     <% @notes.each do |note| %>
       <tr>
         <td>
-          <i class="material-icons">event_note</i> 
-          <a class="book-name-position" href="notes/<%=note.id%>"> <%= note.title %></a>
-        </td>
+          <i class="material-icons">event_note</i>
+          <%= link_to note_path(:id => note.id), class:'book-name-position' do %>
+          <%= note.title %>
+          <% end %>
         <td>
-          <a class="not-hover" href="notes/<%=note.id%>/edit"> <i class="material-icons">mode_edit</i> </a>
+        <%= link_to edit_note_path(:id => note.id), class:'not-hover' do %>
+          <i class="material-icons">mode_edit</i> 
+        <% end %>
         </td>
         <td>
           <%= link_to note_path(:id => note.id), method: :delete, class:'not-hover', data: { confirm: 'Seguro desea eliminar esta nota?' } do %>
@@ -53,7 +61,15 @@
 <br>
 
 <div class="center">
-<a href="books/new" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Cuaderno</a>
-<a href="notes/new" class="buton-text waves-effect waves-light btn"><i class="material-icons left">add</i>Crear Nota</a>
+<%= link_to new_book_path, class:'buton-text waves-effect waves-light btn' do %>
+  <i class="material-icons left">add</i>Crear Cuaderno
+<% end %>
+
+<%= link_to new_note_path, class:'buton-text waves-effect waves-light btn' do %>
+  <i class="material-icons left">add</i>Crear nota
+<% end %>
+<%= link_to books_export_all_path(@book), class:'buton-text all-st waves-effect waves-light btn', method: :post  do%>
+  <i class="material-icons left">add</i>Exportar todo
+<% end %>
 </div>
 
